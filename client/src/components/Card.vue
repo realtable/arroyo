@@ -6,6 +6,16 @@
         <h6><a :href="link" target="_blank" class="text-muted">{{ linkText }} <FontAwesomeIcon icon="external-link-alt" class="external my-auto" /></a></h6>
         <p class="card-text text-left">{{ content }}</p>
       </div>
+      <div class="card-footer text-muted">
+        <div class="row">
+          <div class="col-8 text-left">
+            <a :href="websiteLink" target="_blank" class="text-muted">{{ website }}</a>
+          </div>
+          <div class="col-4 text-right">
+            date
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +33,9 @@ export default {
     title: String,
     link: String,
     linkText: String,
-    content: String
+    content: String,
+    website: String,
+    websiteLink: String
   }
 }
 </script>

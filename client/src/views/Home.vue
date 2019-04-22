@@ -15,7 +15,7 @@
           <div class="modal-body">
             <!-- Feed Input -->
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Feed Link" v-model="nextItem" aria-describedby="button-addon">
+              <input type="text" class="form-control" placeholder="Feed Link" v-model="nextItem" aria-describedby="button-addon" v-on:keyup.enter="addItem">
               <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button" id="button-addon" v-on:click="addItem">Add</button>
               </div>
@@ -26,7 +26,7 @@
             </div>
             
             <!-- List of Feeds -->
-            <Feed v-for="item in feeds" v-bind:index="feeds.indexOf(item)" v-bind:item="item" @remove-signal="removeItem" />
+            <Feed v-for="item in feeds" v-bind:index="feeds.indexOf(item)" v-bind:key="feeds.indexOf(item)" v-bind:item="item"  @remove-signal="removeItem" />
           </div>
           
           <div class="modal-footer">
@@ -49,10 +49,7 @@
       
       <!-- Cards -->
       <div class="row my-3">
-        <Card title="Lorem Ipsum" link="https://www.example.com" linkText="www.example.com" content="Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ut justo sollicitudin, efficitur est ac, consequat nunc. Proin et malesuada lacus. Praesent non elit vel est iaculis tincidunt ..." />
-        <Card title="Dolor Sit Amet" link="https://www.example.com" linkText="www.example.com" content="Vestibulum ac fringilla lectus. Donec faucibus urna mauris, a elementum arcu volutpat id. Nulla ullamcorper vitae eros eu euismod. Nunc ipsum sem, vulputate at ex quis, vestibulum suscipit turpis. Suspendisse elementum ..." />
-        <Card title="Consectetur" link="https://www.example.com" linkText="www.example.com" content="Convallis volutpat magna nunc nec ligula. Nulla nec lobortis felis, et suscipit elit. Maecenas laoreet leo sed augue suscipit, ac viverra ante porta. Cras cursus massa neque, vel consequat arcu tempus vel. Donec mattis ..." />
-        <Card title="Adipiscing Elit" link="https://www.example.com" linkText="www.example.com" content="Ut vehicula sit amet orci sed blandit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Aliquam facilisis porttitor sapien sed cursus ..." />
+        <Card v-for="c in feedData" v-bind:title="c.title" v-bind:link="c.link" v-bind:linkText="c.linkText" v-bind:content="c.content" v-bind:website="c.website" v-bind:websiteLink="c.websiteLink" v-bind:key="feedData.indexOf(c)"/>
       </div>
     </div>
   </div>
@@ -66,8 +63,10 @@
 </style>
 
 <script>
+  /*eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
   import Feed from '@/components/Feed.vue'
   import Card from '@/components/Card.vue'
+  import Api from '@/services/Api'
 
   export default {
     name: 'home',
@@ -76,25 +75,39 @@
     },
     methods: {
       addItem() {
+        this.hidden = false
         if (this.feeds.includes(this.nextItem)) {
-          this.hidden = false
           this.errorMessage = 'Feed has already been added.'
         } else if (this.nextItem == '') {
-          this.hidden = false
           this.errorMessage = 'Input box cannot be empty.'
         } else {
           this.feeds.push(this.nextItem)
           this.hidden = true
+          this.getFeeds()
         }
         this.nextItem = ''
         localStorage.feeds = JSON.stringify(this.feeds)
       },
       removeItem(val) {
-        console.log(typeof(this.feeds))
         this.feeds = this.feeds.filter((i) => {
           return this.feeds.indexOf(i) != val
         })
+        this.getFeeds()
         localStorage.feeds = JSON.stringify(this.feeds)
+      },
+      async getFeeds() {
+        let res = []
+        for (let feed of this.feeds) {
+          let json = await Api.fetch(feed)
+          console.log(json)
+          res.push(...json.data)
+        }
+        
+        // for (let i = res.length - 1; i > 0; i--) {
+        //   var j = Math.floor(Math.random() * (i + 1));
+        //   [res[i], res[j]] = [res[j], res[i]];
+        // }
+        this.feedData = res
       }
     },
     data() {
@@ -102,13 +115,15 @@
         nextItem: '',
         feeds: [],
         hidden: true,
-        errorMessage: ''
+        errorMessage: '',
+        feedData: []
       }
     },
-    created() {
+    mounted() {
       if (localStorage.feeds) {
         this.feeds = JSON.parse(localStorage.feeds);
       }
-    },
+      this.getFeeds()
+    }
   }
 </script>

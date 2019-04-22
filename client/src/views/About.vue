@@ -18,7 +18,7 @@
         <tbody>
           <tr>
             <td>What is RSS?</td>
-            <td><a href="https://www.xml.com/pub/a/2002/12/18/dive-into-xml.html">https://www.xml.com/pub/a/2002/12/18/dive-into-xml.html</a></td>
+            <td><a href="https://feeder.co/knowledge-base/rss-basics/what-is-rss/">https://feeder.co/knowledge-base/rss-basics/what-is-rss/</a></td>
           </tr>
           <tr>
             <td>Arroyo Issues</td>

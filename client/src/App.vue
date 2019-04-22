@@ -12,7 +12,7 @@
     <router-view/>
     
     <!-- Go To Top -->
-    <div class="go-to-top text-right p-3" alt="Go to top">
+    <div class="go-to-top text-right pr-3 pb-2" alt="Go to top">
       <a href="#app"><FontAwesomeIcon icon="chevron-up" /></a>
     </div>
     

@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex mx-0 my-2 rounded-lg feed-item">
-    <div class="p-2 flex-grow-1 my-auto">{{ item }}</div>
+    <div class="flex-grow-1 my-auto text-center">{{ item }}</div>
     <div class="p-2">
       <button type="button" class="btn btn-outline-dark btn-sm" v-on:click="$emit('remove-signal', index)">
         <b>&times;</b>
