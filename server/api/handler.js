@@ -18,7 +18,6 @@ module.exports = (json, url) => {
   let res = []
   
   if (json.feed) {
-    console.log('atom')
     let items = json.feed.entry  
     for (let item of items) {
       res.push({
@@ -32,7 +31,6 @@ module.exports = (json, url) => {
       })
     }
   } else if (json.rss) {
-    console.log('rss')
     let items = json.rss.channel[0].item  
     for (let item of items) {
       res.push({
@@ -47,6 +45,5 @@ module.exports = (json, url) => {
     }
   }
   
-  console.log(res[0])
   return res
 }

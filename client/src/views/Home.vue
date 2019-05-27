@@ -48,7 +48,7 @@
       </button>
       
       <!-- Cards -->
-      <div class="row my-3">
+      <div class="card-columns my-3">
         <Card v-for="c in feedData" v-bind:title="c.title" v-bind:link="c.link" v-bind:linkText="c.linkText" v-bind:content="c.content" v-bind:website="c.website" v-bind:fuzzyTime="c.fuzzyTime" v-bind:key="feedData.indexOf(c)"/>
       </div>
     </div>
