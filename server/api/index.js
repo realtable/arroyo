@@ -10,7 +10,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(morgan('combined'))
 
-if (process.env.VUE_PROD) {
+if (process.env.VUE_APP_PROD) {
   let whitelist = ['https://arroyo-client.realtable.now.sh', 'https://arroyo.now.sh']
   app.use(cors({
     origin: function (origin, callback) {
@@ -24,23 +24,23 @@ if (process.env.VUE_PROD) {
 } else {
   app.use(cors())
 }
-
 app.get('*', (req, res) => {
   let url = req.query.fd
   request(url, (err, stream, body) => {
     if (err) {
-      res.send(400, 'Invalid URL')
+      res.status(400).send('Invalid URL')
     } else {
       parser(body, (err, json) => {
         if (err) {
-          res.send(500, 'Unable to parse XML')
+          res.status(500).send('Unable to parse XML')
         } else {
           res.set('Content-Type', 'application/json')
-          res.send(200, handler(json, url))
+          res.status(200).send(handler(json, url))
         }
       })
     }
   })
 })
 
-module.exports = app
+if (process.env.VUE_APP_PROD) module.exports = app
+else app.listen(8081)

@@ -49,7 +49,7 @@
       
       <!-- Cards -->
       <div class="row my-3">
-        <Card v-for="c in feedData" v-bind:title="c.title" v-bind:link="c.link" v-bind:linkText="c.linkText" v-bind:content="c.content" v-bind:website="c.website" v-bind:websiteLink="c.websiteLink" v-bind:key="feedData.indexOf(c)"/>
+        <Card v-for="c in feedData" v-bind:title="c.title" v-bind:link="c.link" v-bind:linkText="c.linkText" v-bind:content="c.content" v-bind:website="c.website" v-bind:fuzzyTime="c.fuzzyTime" v-bind:key="feedData.indexOf(c)"/>
       </div>
     </div>
   </div>
@@ -63,7 +63,6 @@
 </style>
 
 <script>
-  /*eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
   import Feed from '@/components/Feed.vue'
   import Card from '@/components/Card.vue'
   import Api from '@/services/Api'
@@ -99,14 +98,12 @@
         let res = []
         for (let feed of this.feeds) {
           let json = await Api.fetch(feed)
-          console.log(json)
           res.push(...json.data)
         }
         
-        // for (let i = res.length - 1; i > 0; i--) {
-        //   var j = Math.floor(Math.random() * (i + 1));
-        //   [res[i], res[j]] = [res[j], res[i]];
-        // }
+        res.sort((a, b) => {
+          return b.time - a.time
+        })
         this.feedData = res
       }
     },
