@@ -22,7 +22,7 @@
             </div>
             
             <div class="alert alert-danger my-2 p-2 text-left" v-show="!hidden" role="alert">
-              <FontAwesomeIcon icon="exclamation-circle" class="mr-2" />{{ errorMessage }}
+              <FontAwesomeIcon icon="exclamation-triangle" class="mr-2" />{{ errorMessage }}
             </div>
             
             <!-- List of Feeds -->
@@ -48,6 +48,9 @@
       </button>
       
       <!-- Cards -->
+      <div class="alert alert-warning my-2 p-2 text-left" v-show="!hidden2" role="alert">
+        <FontAwesomeIcon icon="info-circle" class="mr-2" />You haven't added any feeds yet.
+      </div>
       <div class="card-columns my-3">
         <Card v-for="c in feedData" v-bind:title="c.title" v-bind:link="c.link" v-bind:linkText="c.linkText" v-bind:content="c.content" v-bind:website="c.website" v-bind:fuzzyTime="c.fuzzyTime" v-bind:key="feedData.indexOf(c)"/>
       </div>
@@ -105,6 +108,8 @@
           return b.time - a.time
         })
         this.feedData = res
+        if (res.length == 0) this.hidden2 = false
+        else this.hidden2 = true
       }
     },
     data() {
@@ -112,6 +117,7 @@
         nextItem: '',
         feeds: [],
         hidden: true,
+        hidden2: true,
         errorMessage: '',
         feedData: []
       }

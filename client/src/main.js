@@ -4,9 +4,9 @@ import router from './router'
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faChevronUp, faExternalLinkAlt, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import { faChevronUp, faExternalLinkAlt, faExclamationTriangle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faChevronUp, faExternalLinkAlt, faExclamationCircle)
+library.add(faChevronUp, faExternalLinkAlt, faExclamationTriangle, faInfoCircle)
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
 
 // Bootstrap CSS
