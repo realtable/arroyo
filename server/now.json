@@ -2,7 +2,6 @@
   "version": 2,
   "name": "arroyo-server",
   "builds": [{ "src": "api/index.js", "use": "@now/node" }],
-  "regions": ["sfo1", "hnd1", "bru1", "syd1"],
   "env": {
     "VUE_APP_PROD": "true"
   }
